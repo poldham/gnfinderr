@@ -1,5 +1,5 @@
 Package: gnfinderr
-Title: An R wrapper for the gnfinder library
+Title: An R Wrapper For The Gnfinder Library
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Paul",
