@@ -5,6 +5,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+![R-CMD-check](https://github.com/poldham/gnfinderr/workflows/R-CMD-check/badge.svg)
 <!-- badges: end -->
 
 `gnfindrr` is an experimental R wrapper for the [gnfinder
