@@ -1,2 +1,10 @@
 ^gnfinderr\.Rproj$
 ^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+^data-raw$
+^test-data$
+^docs$
+^ignore$
+^CODE_OF_CONDUCT.md$
+^\.github$
