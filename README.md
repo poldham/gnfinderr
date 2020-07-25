@@ -7,6 +7,8 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 ![R-CMD-check](https://github.com/poldham/gnfinderr/workflows/R-CMD-check/badge.svg)
+[![Codecov test
+coverage](https://codecov.io/gh/poldham/gnfinderr/branch/master/graph/badge.svg)](https://codecov.io/gh/poldham/gnfinderr?branch=master)
 <!-- badges: end -->
 
 `gnfindrr` is an experimental R wrapper for the [gnfinder
