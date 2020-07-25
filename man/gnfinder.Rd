@@ -40,8 +40,7 @@ returning a data frame. Optionally check names and retrieve taxon ids and
 classification from different data sources.
 }
 \examples{
-single <- gnfinder("Lepidium meyenii is a hot plant. Escherichia coli is not")
-hotplants <- gnfinder(c("Lepidium meyenii is a hot plant",
-"Capsicum annuum is a hot plant for a different reason"))
-\dontrun{five <- gnfinder(fivetexts$text, fivetexts$id, check_names = FALSE)}
+\dontrun{single <- gnfinder("Lepidium meyenii is a hot plant. Escherichia coli is not")
+hotplants <- gnfinder(c("Lepidium meyenii is a hot plant","Capsicum annuum is also hot"))
+five <- gnfinder(fivetexts$text, fivetexts$id, check_names = FALSE)}
 }

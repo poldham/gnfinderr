@@ -30,10 +30,9 @@
 #' @importFrom usethis ui_info
 #' @importFrom usethis ui_warn
 #' @importFrom usethis ui_stop
-#' @examples single <- gnfinder("Lepidium meyenii is a hot plant. Escherichia coli is not")
-#' hotplants <- gnfinder(c("Lepidium meyenii is a hot plant",
-#' "Capsicum annuum is a hot plant for a different reason"))
-#' \dontrun{five <- gnfinder(fivetexts$text, fivetexts$id, check_names = FALSE)}
+#' @examples \dontrun{single <- gnfinder("Lepidium meyenii is a hot plant. Escherichia coli is not")
+#' hotplants <- gnfinder(c("Lepidium meyenii is a hot plant","Capsicum annuum is also hot"))
+#' five <- gnfinder(fivetexts$text, fivetexts$id, check_names = FALSE)}
 gnfinder <- function(string, id = NULL, nobayes = NULL, check_names = NULL, sources = NULL, source_ids = NULL) {
 
 
