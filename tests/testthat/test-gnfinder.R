@@ -65,9 +65,9 @@ test_that("vector default runs with multiple source_ids as character vector retu
 
 # data frame option
 
-test_that("check dataframe with multi ids returns dataframe", {
-  expect_message(two <- gnfinder(fivetexts$text, fivetexts$id, source_ids = c("11","179")), "Running search: Checking against the Catalogue of Life and the source_ids provided")
-  expect_is(two, class = "data.frame")
-})
+# test_that("check dataframe with multi ids returns dataframe", {
+#   expect_message(two <- gnfinder(fivetexts$text, fivetexts$id, source_ids = c("11","179")), "Running search: Checking against the Catalogue of Life and the source_ids provided")
+#   expect_is(two, class = "data.frame")
+# })
 
 
