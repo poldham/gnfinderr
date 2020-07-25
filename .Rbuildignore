@@ -8,3 +8,4 @@
 ^ignore$
 ^CODE_OF_CONDUCT\.md$
 ^\.github$
+^tests$
