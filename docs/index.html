@@ -66,55 +66,84 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="gnfinderr" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#gnfinderr" class="anchor"></a>gnfinderr</h1></div>
-<!-- badges: start -->
 
-<p><code>gnfindrr</code> is an experimental R wrapper for the <a href="https://github.com/gnames/gnfinder">gnfinder library</a> for scientific name discovery in texts created by <a href="https://github.com/dimus">Dmitry Mozzherin</a>. gnfinder forms part of the Glonal Names suite of tools for working with taxonomic names and biodiversity data. gnfinder is presently available as a command line tool and can also be used as a gRPC service, a library or in a docker container. gnfinder is used to text mine the Biodiversity Heritage Library for taxonomic names.</p>
-<p>This package has the modest ambition of providing a thin wrapper in R with a focus on text mining data frames and returning data frames to the user. <code>gnfinderr</code> uses the tidyverse and include the pipe <code><a href="reference/pipe.html">%&gt;%</a></code>.</p>
-<p>It is at an early experimental stage and just maps the main results to a data frame.</p>
+
+<p><code>gnfindrr</code> is an experimental R wrapper for the <a href="https://github.com/gnames/gnfinder">gnfinder library</a> for scientific name discovery in texts created by <a href="https://github.com/dimus">Dmitry Mozzherin</a>.</p>
+<p><code>gnfinder</code> forms part of the <a href="https://github.com/gnames">Global Names Architecture (GNA)</a> suite of tools for working with taxonomic names and biodiversity data. <code>gnfinder</code> is presently available as a command line tool and can also be used as a gRPC service, a library or in a docker container. <code>gnfinder</code> is used to text mine the Biodiversity Heritage Library for taxonomic names at the scale of millions of pages.</p>
+<p><code>gnfinderr</code> has the modest ambition of providing a thin wrapper in R with a focus on text mining smaller data frames and returning data frames to the user. <code>gnfinderr</code> uses the tidyverse and includes the pipe <code><a href="reference/pipe.html">%&gt;%</a></code>.</p>
+<p><code>gnfinderr</code> is not intended for use on large datasets (as it will take a very long time). For that use <code>gnfinder</code> directly. What <code>gnfinderr</code> is useful for is smaller datasets of upto a few thousand texts. This will give you a good flavour of what you can do with <code>gnfinder</code> if you are interested in scaling up later on.</p>
+<p><code>gnfinderr</code> is at an early experimental stage and presently just maps the main results to a data frame.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>gnfinderr is not on CRAN. The development version can be installed from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install.packages("devtools")</span>
+<p>To work with <code>gnfinderr</code> you need to install <code>gnfinder</code> as a command line app for your operating system as described here <a href="https://github.com/gnames/gnfinder" class="uri">https://github.com/gnames/gnfinder</a>. These steps are reproduced below.</p>
+<p><em>Step 1:</em> Get the latest release for your operating system from here <a href="https://github.com/gnames/gnfinder/releases" class="uri">https://github.com/gnames/gnfinder/releases</a></p>
+<p>Make sure that you download the right version for your system to avoid considerable confusion.</p>
+<p><em>Step 2:</em> Linux or OSX</p>
+<p>Move <code>gnfinder</code> executable somewhere in your PATH (for example /usr/local/bin)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">sudo mv path_to<span class="op">/</span>gnfinder <span class="op">/</span>usr<span class="op">/</span>local<span class="op">/</span>bin</a></code></pre></div>
+<p><em>Step 2:</em> Windows</p>
+<p>Here you have options.</p>
+<p>One possible way would be to create a default folder for executables and place <code>gnfinder</code> there.</p>
+<p>Use Windows+R keys combination and type “cmd”. In the appeared terminal window type:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">mkdir C<span class="op">:</span>\bin</a>
+<a class="sourceLine" id="cb2-2" title="2">copy path_to\gnfinder.exe C<span class="op">:</span>\bin</a></code></pre></div>
+<p>Add C:directory to your PATH environment variable.</p>
+<p><em>Step 3:</em> Test run <code>gnfinder</code></p>
+<p>In terminal bring up the <code>gnfinder</code> page.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">gnfinder</a></code></pre></div>
+<p>Run a quick query:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">echo <span class="st">"Pomatomus saltator and Parus major"</span> <span class="op">|</span><span class="st"> </span>gnfinder find <span class="op">-</span>c <span class="op">-</span>l eng</a></code></pre></div>
+<p>You are good to go.</p>
+<p><em>Step 4:</em> install <code>gnfinderr</code></p>
+<p><code>gnfinderr</code> is not on CRAN. The development version can be installed from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"poldham/gnfinderr"</span>)</pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is presently a one function package.</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gnfinderr</span>)
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gnfinderr</span>)
 
 <span class="no">intro</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gnfinder.html">gnfinder</a></span>(<span class="kw">string</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Lepidium meyennii is a hot plant."</span>, <span class="st">"Escherichia coli is not a plant at all"</span>))</pre></div>
 <p><code>gnfinderr</code> is intended to be informative and to fail fast. The default search uses the combination of dictionaries and bayes regression that power gnfinder and will check any names discovered against the Catalogue of Life (by default)</p>
-<p>An id column is generated and mapped to the input texts to facilitate joins. Alternatively you can provide ids at input. Example datasets of various sizes are provided to experiment with. Here we use the small fivetexts dataset to pass document ids to join the results.</p>
-<p>Most of the functions in gnfinder are available (except language options and metadata is not returned). By default all available arguments are TRUE (bayes is on). We can change the setting by entering a value in the relevant argument.</p>
-<p>Turning off check_names will speed up processing and simplify the returns</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gnfinderr</span>)
+<p>An id column is generated and mapped to the input texts to facilitate joins. Alternatively you can provide ids at input. Example datasets of various sizes are provided to experiment with. Be warned that the <code>zootaxa_titles</code> dataset with 20,000 titles takes a long time to run. Here we use the small <code>fivetexts</code> dataset to pass document ids to join the results.</p>
+<p>Most of the functions from <code>gnfinder</code> are available in <code>gnfinderr</code> (except language options and metadata is not returned). By default all available arguments are TRUE (bayes is on). We can change the setting by entering a value in the relevant argument.</p>
+<p>Turning off check_names will speed up processing and simplify the returns:</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gnfinderr</span>)
 
 <span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gnfinder.html">gnfinder</a></span>(<span class="kw">string</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">text</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">id</span>, <span class="kw">check_names</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
 <p>You can also turn off the Bayes regression by entering a value for <code>nobayes</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gnfinder.html">gnfinder</a></span>(<span class="kw">string</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">text</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">id</span>, <span class="kw">nobayes</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">check_names</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gnfinder.html">gnfinder</a></span>(<span class="kw">string</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">text</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">id</span>, <span class="kw">nobayes</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">check_names</span> <span class="kw">=</span> <span class="fl">FALSE</span>)</pre></div>
 <p>In general name discovery in texts is facilitated by leaving the bayes setting as is.</p>
 <p>When working with gnfinder it is best to be selective in the use of texts to facilitate matching. Thus, if you include article metadata such as author names and organisations you may get unexpected false positive matches.</p>
 <div id="specifying-sources-for-check-names" class="section level3">
 <h3 class="hasAnchor">
 <a href="#specifying-sources-for-check-names" class="anchor"></a>Specifying Sources for Check Names</h3>
 <p>By default <code>gnfinderr</code> checks names against the Catalogue of Life Taxonomy. The results are returned in a set of data.frames under verification and include a best result.</p>
-<p>For a list of available sources see <a href="https://index.globalnames.org/datasource">https://index.globalnames.org/datasource</a>. Here we will check against the <a href="https://www.catalogueoflife.org/">Catalogue of Life</a> (1), the <a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">Global Biodiversity Information Facility (GBIF) Backbone Taxonomy</a> (11) and the <a href="https://tree.opentreeoflife.org/about/taxonomy-version/ott3.2">Open Tree of Life Reference Taxonomy</a> (179)</p>
+<p>For a list of available sources see <a href="https://index.globalnames.org/datasource" class="uri">https://index.globalnames.org/datasource</a>. Here we will check against:</p>
+<ul>
+<li>
+<a href="https://www.catalogueoflife.org/">The Catalogue of Life</a> (1),</li>
+<li>
+<a href="https://www.gbif.org/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c">The Global Biodiversity Information Facility (GBIF) Backbone Taxonomy</a>
+(11)</li>
+<li>
+<a href="https://tree.opentreeoflife.org/about/taxonomy-version/ott3.2">The Open Tree of Life Reference Taxonomy</a>
+(179)</li>
+</ul>
 <p>We can specify the source we would like to check by supplying a vector of ids to <code>source_ids</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gnfinder.html">gnfinder</a></span>(<span class="kw">string</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">text</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">id</span>, <span class="kw">source_ids</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">11</span>,<span class="fl">179</span>))</pre></div>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/gnfinder.html">gnfinder</a></span>(<span class="kw">string</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">text</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="no">five</span>$<span class="no">id</span>, <span class="kw">source_ids</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">11</span>,<span class="fl">179</span>))</pre></div>
 <p>This will return a tibble (data frame) that contains other data frames under <code>verification</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="no">df</span>$<span class="no">verification</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="r"><span class="no">df</span>$<span class="no">verification</span></pre></div>
 <p>The verification table contains bestresult and preferredresults dfs, where the best result is for the best match and the preferred results are from the taxonomic services in <code>source_ids</code>. These tables include details of the taxon ids and taxonomic hierarchy.</p>
 </div>
 <div id="limitations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#limitations" class="anchor"></a>Limitations</h3>
-<p>gnfinder works with UTF8 texts and should not be expected to work with other kinds of texts. If you don’t know whether you have utf8 formatted text the package should tell you when you enter your texts.</p>
-<p>R runs on a single core and so, for the time being, does <code>gnfinderr</code> with work planned to use the <code>future</code> package to work in parallel. As such, expect the package to be slow on large numbers of texts. Perhaps turn off <code>check_names</code> for a performance boost.</p>
+<p><code>gnfinder</code> works with UTF8 texts and should not be expected to work with other kinds of texts. If you don’t know whether you have utf8 formatted text the package should tell you when you enter your texts.</p>
+<p>R runs on a single core and so, for the time being, does <code>gnfinderr</code>. Work is planned to explore options for running in parallel. As such, expect the package to be slow on large numbers of texts. Turn off <code>check_names</code> for a performance boost.</p>
 </div>
 <div id="future-plans" class="section level3">
 <h3 class="hasAnchor">
@@ -125,14 +154,14 @@
 <li>Allowing a user to return the raw json to file with identifiers</li>
 <li>Returning the metadata</li>
 <li>Examining ways to access nested data frames with document identifiers</li>
-<li>Adding parallel processing with the <code>future</code> package</li>
-<li>Linking through to R packages such as taxize and rgbif</li>
+<li>Examining options for running in parallel</li>
+<li>Linking through to R packages such as {taxize} and {rgbif}</li>
 <li>Following the ROpenSci guide for package submission</li>
 </ul>
 <p>Suggestions and comments are welcome on the <a href="https://github.com/poldham/gnfinderr/issues">Github Issues</a> page. A <a href="https://github.com/poldham/gnfinderr/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a> is provided for collaborators.</p>
 </div>
 </div>
-</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

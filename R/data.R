@@ -1,4 +1,4 @@
-#'zootaxa
+#'zootaxa titles
 #'@description Titles from the Zootaxa journal sourced from Microsoft Academic
 #'  Graph (May 2020) including the DOI and MAG paperid.
 #'@format{A data frame with two columns and 27974 rows \describe{
@@ -11,18 +11,7 @@
 #' @examples zootaxa
 "zootaxa"
 
-#'ten
-#'@description Ten texts combining titles and abstracts about the Bahamas from
-#'  the Lens database
-#'@format{A data frame with two columns and ten rows \describe{
-#'\item{\code{id}}{character} \item{\code{text}}{character} } }
-#'@details Search of the [Lens scholarly database](https://www.lens.org/)
-#'  \url{https://www.lens.org/lens/search/scholar/list?q=bahamas}
-#' @docType data
-#' @examples ten
-"ten"
-
-#'five
+#'five texts
 #'@description Five texts combining titles and abstracts about the Bahamas from
 #'  the Lens database
 #'@format{A data frame with two columns and five rows \describe{
@@ -30,10 +19,10 @@
 #'@details Search of the [Lens scholarly database](https://www.lens.org/)
 #'  \url{https://www.lens.org/lens/search/scholar/list?q=bahamas}
 #' @docType data
-#' @examples ten
-"five"
+#' @examples fivetexts
+"fivetexts"
 
-#'onehundred
+#'one hundred texts
 #'@description One hundred texts containing combined titles and abstracts about
 #'  the Bahamas from the Lens database
 #'@format{A data frame with two columns and 100 rows \describe{
@@ -41,5 +30,5 @@
 #'@details Search of the [Lens scholarly database](https://www.lens.org/)
 #'  \url{https://www.lens.org/lens/search/scholar/list?q=bahamas}
 #' @docType data
-#' @examples onehundred
-"onehundred"
+#' @examples onehundredtexts
+"onehundredtexts"

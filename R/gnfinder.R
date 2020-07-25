@@ -20,6 +20,7 @@
 #' @importFrom purrr set_names
 #' @importFrom jsonlite fromJSON
 #' @importFrom glue glue
+#' @importFrom glue glue_collapse
 #' @importFrom glue double_quote
 #' @importFrom tibble add_column
 #' @importFrom dplyr bind_rows
@@ -30,9 +31,9 @@
 #' @importFrom usethis ui_warn
 #' @importFrom usethis ui_stop
 #' @examples single <- gnfinder("Lepidium meyenii is a hot plant. Escherichia coli is not")
-#'  hotplants <- gnfinder(c("Lepidium meyenii is a hot plant",
+#' hotplants <- gnfinder(c("Lepidium meyenii is a hot plant",
 #' "Capsicum annuum is a hot plant for a different reason"))
-#'
+#' five <- gnfinder(fivetexts$text, fivetexts$id, check_names = FALSE)
 gnfinder <- function(string, id = NULL, nobayes = NULL, check_names = NULL, sources = NULL, source_ids = NULL) {
 
 
@@ -44,7 +45,7 @@ gnfinder <- function(string, id = NULL, nobayes = NULL, check_names = NULL, sour
   # odds_details <- "-o"
   # sources <- "-s"
 
-#source_ids <- glue_collapse(source_ids, ",")
+multi_ids <- glue_collapse(source_ids, ",")
 
 
 # Fail Fast ---------------------------------------------------------------
@@ -85,32 +86,30 @@ if(is.null(nobayes) && !is.null(check_names)) {
 if(is.null(nobayes) && is.null(check_names) && !is.null(source_ids)) {
 
   ui_info("Running search: Checking against the Catalogue of Life and the source_ids provided")
-  input <- glue::glue('echo {double_quote(string)} | gnfinder find -c -l eng -s {source_ids}')
+  input <- glue::glue('echo {double_quote(string)} | gnfinder find -c -l eng -s {multi_ids}')
 
 }
 
-
 # No bayes
 
-
-  if(!is.null(nobayes) && is.null(check_names) && is.null(source_ids)) {
+if(!is.null(nobayes) && is.null(check_names) && is.null(source_ids)) {
 
     ui_info("Running search: no bayes, checking names against default Catalogue of Life")
     input <- glue::glue('echo {double_quote(string)} | gnfinder find -n -c -l eng')
 
   }
 
-   else if(!is.null(nobayes) && !is.null(check_names)) {
+if(!is.null(nobayes) && !is.null(check_names)) {
 
     ui_info("Running search: no bayes, not checking names")
     input <- glue::glue('echo {double_quote(string)} | gnfinder find -n -l eng')
 
   }
 
-  else if (!is.null(nobayes) && !is.null(source_ids)) {
+if (!is.null(nobayes) && !is.null(source_ids)) {
 
     ui_info("Running search: no bayes checking against Catalogue of Life and the source_ids provided")
-    input <- glue::glue('echo {double_quote(string)} | gnfinder find -n -c -l eng -s {source_ids}')
+    input <- glue::glue('echo {double_quote(string)} | gnfinder find -n -c -l eng -s {multi_ids}')
 
   }
 
@@ -122,19 +121,8 @@ if(is.null(nobayes) && is.null(check_names) && !is.null(source_ids)) {
     compact() %>%
     bind_rows(., .id = "id")
 
-   names_out <- names$names %>%
-    add_column(id = names$id)  # not keen on this
-
-  # verification is a data frame inside the names data frame
-  # it seems to have the same length as the other df but will that always be true
-  # if multiple sources are chosen
-
-  # verification <- names_out$verification %>%
-  #    add_column(id = names_out$id) %>%
-  #    janitor::clean_names()
-
-
-
+  names_out <- names$names %>%
+    add_column(id = names$id, .before = "cardinality")  # not keen on this
 
 
 }
